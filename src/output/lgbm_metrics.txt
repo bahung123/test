@@ -1,0 +1,36 @@
+Thời gian huấn luyện mô hình: 76.51 giây
+
+Accuracy: 0.9916589033082739
+
+Classification Report:
+               precision    recall  f1-score   support
+
+           0       1.00      0.99      1.00    276113
+           1       0.26      1.00      0.42       829
+
+    accuracy                           0.99    276942
+   macro avg       0.63      0.99      0.71    276942
+weighted avg       1.00      0.99      0.99    276942
+
+Confusion Matrix:
+ [[273807   2306]
+ [     4    825]]
+
+ROC-AUC: 0.9988
+
+AUCPR: 0.9523
+
+
+Confusion Matrix with threshold 0.925:
+ [[275857    256]
+ [    66    763]]
+
+Classification Report with threshold 0.925:
+               precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00    276113
+           1       0.75      0.92      0.83       829
+
+    accuracy                           1.00    276942
+   macro avg       0.87      0.96      0.91    276942
+weighted avg       1.00      1.00      1.00    276942
