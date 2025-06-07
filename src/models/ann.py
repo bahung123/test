@@ -140,8 +140,8 @@ class ANNLOF(BaseDetector):
 
             self.lrd_ = np.zeros(n_samples)
             for i in range(n_samples):
-                if actual_n_neighbors == 0: # Không có lân cận nào
-                    self.lrd_[i] = np.inf # Hoặc 0, tùy định nghĩa cho trường hợp này
+                if actual_n_neighbors == 0: 
+                    self.lrd_[i] = np.inf 
                 else:
                     mean_reach_dist = np.mean(reach_dist_train[i, :])
                     if mean_reach_dist > 0:
@@ -162,18 +162,19 @@ class ANNLOF(BaseDetector):
         self._process_decision_scores() 
         return self
 
+    
     def _compute_lof_scores(self, X, is_training_data=False):
         check_is_fitted(self, ['index', 'X_train_', 'lrd_', '_k_distances_train'])
         X_float32 = np.asarray(X, dtype=np.float32)
 
-        if self.X_train_.shape[0] == 0: # Nếu không có dữ liệu huấn luyện
-            return np.ones(X_float32.shape[0]) # Trả về điểm mặc định
+        if self.X_train_.shape[0] == 0: 
+            return np.ones(X_float32.shape[0]) 
         num_neighbors_to_use = min(self.n_neighbors, self.X_train_.shape[0] -1 if self.X_train_.shape[0] > 0 else 0)
         if num_neighbors_to_use <=0 and self.X_train_.shape[0] > 0 : num_neighbors_to_use = 1 # Cần ít nhất 1 lân cận nếu có thể
         if self.X_train_.shape[0] == 0 : num_neighbors_to_use = 0
 
 
-        if num_neighbors_to_use == 0: # Không có lân cận nào để so sánh
+        if num_neighbors_to_use == 0: 
             return np.ones(X_float32.shape[0])
 
 
@@ -189,13 +190,13 @@ class ANNLOF(BaseDetector):
             actual_indices = indices_searched[:, :num_neighbors_to_use]
 
         # Tính reachability distance cho X
-        reach_dist_X = np.zeros_like(actual_distances) # Shape (X.shape[0], num_neighbors_to_use)
+        reach_dist_X = np.zeros_like(actual_distances)
         for i in range(X_float32.shape[0]):
             for j in range(num_neighbors_to_use):
                 neighbor_original_idx = actual_indices[i, j]
                 if neighbor_original_idx < len(self._k_distances_train):
                     k_dist_of_neighbor = self._k_distances_train[neighbor_original_idx]
-                else:
+                else: 
                     k_dist_of_neighbor = np.inf
 
                 dist_X_to_neighbor = actual_distances[i, j]
@@ -224,7 +225,7 @@ class ANNLOF(BaseDetector):
             neighbor_lrds_from_train = self.lrd_[actual_indices[i, :]]
 
             finite_neighbor_lrds = neighbor_lrds_from_train[np.isfinite(neighbor_lrds_from_train)]
-            if not finite_neighbor_lrds.size: # Tất cả LRD của lân cận là inf hoặc không có lân cận hợp lệ
+            if not finite_neighbor_lrds.size: 
                 mean_lrd_of_neighbors = np.inf 
             else:
                 mean_lrd_of_neighbors = np.mean(finite_neighbor_lrds)
